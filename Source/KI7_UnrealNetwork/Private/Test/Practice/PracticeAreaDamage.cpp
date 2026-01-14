@@ -11,6 +11,8 @@ APracticeAreaDamage::APracticeAreaDamage()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+	bReplicates = true;
+
 	Collision = CreateDefaultSubobject<UBoxComponent>(TEXT("Collision"));
 	Collision->SetBoxExtent(FVector(100.f, 100.f, 10.f));
 	SetRootComponent(Collision);
