@@ -34,6 +34,16 @@ void APracticeCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	if (HealthWidgetComponent)
+	{
+		APlayerController* PC = GetWorld()->GetFirstPlayerController();
+		if (PC && PC->PlayerCameraManager)
+		{
+			FVector CameraForward = PC->PlayerCameraManager->GetCameraRotation().Vector();
+			FVector WidgetForward = -CameraForward;
+			HealthWidgetComponent->SetWorldRotation(WidgetForward.Rotation());
+		}
+	}
 }
 
 // Called to bind functionality to input
