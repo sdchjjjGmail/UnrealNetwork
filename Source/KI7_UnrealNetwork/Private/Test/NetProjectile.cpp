@@ -57,7 +57,7 @@ void ANetProjectile::OnHit(AActor* SelfActor, AActor* OtherActor, FVector Normal
 			Multicast_HitEffect(Hit.ImpactPoint, Hit.ImpactNormal.Rotation());
 			SetLifeSpan(2.f);
 			bHit = true;
-;		}
+		}
 	}
 }
 

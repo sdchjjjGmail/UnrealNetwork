@@ -24,6 +24,8 @@ public:
 	void Fire();
 
 protected:
+	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
+
 	UFUNCTION(Server, Reliable)
 	void Server_Fire();
 
@@ -47,4 +49,8 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "TestRPC")
 	TSubclassOf<UCameraShakeBase> CameraShakeClass = nullptr;
+
+private:
+	UPROPERTY(Replicated)
+	float AccumulatedDamage = 0.f;
 };

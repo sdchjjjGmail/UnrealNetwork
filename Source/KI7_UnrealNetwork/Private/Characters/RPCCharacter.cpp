@@ -2,6 +2,7 @@
 
 
 #include "Characters/RPCCharacter.h"
+#include "Net/UnrealNetwork.h"
 
 // Sets default values
 ARPCCharacter::ARPCCharacter()
@@ -24,7 +25,11 @@ void ARPCCharacter::BeginPlay()
 void ARPCCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
+	if (HasAuthority())
+	{
+		const FString Str = FString::Printf(TEXT("Damage(%.1f)"), AccumulatedDamage);
+		DrawDebugString(GetWorld(), GetActorLocation(), Str, nullptr, FColor::White, 0, true);
+	}
 }
 
 // Called to bind functionality to input
@@ -41,6 +46,12 @@ void ARPCCharacter::Fire()
 	}
 }
 
+void ARPCCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+	DOREPLIFETIME(ARPCCharacter, AccumulatedDamage);
+}
+
 void ARPCCharacter::OnTakeDamage(
 	AActor* DamagedActor, 
 	float Damage,
@@ -51,6 +62,7 @@ void ARPCCharacter::OnTakeDamage(
 	if (HasAuthority())
 	{
 		//GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Red, TEXT("맞았음"));
+		AccumulatedDamage += Damage;
 		Client_OnHit();
 	}
 	//Client_OnHit_Implementation();
