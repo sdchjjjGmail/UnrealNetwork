@@ -18,6 +18,8 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Player")
 	void RequestSetMyName(const FString& NewName);
 
+	void UpdateNamePlate(const FString& NewName);
+
 protected:
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
@@ -32,4 +34,11 @@ protected:
 public:
 	UFUNCTION(BlueprintCallable, Category = "Test")
 	void TestAddScore();
+
+protected:
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "UI")
+	TObjectPtr<class UWidgetComponent> DisplayNameWidgetComponent = nullptr;
+
+	UPROPERTY()
+	TWeakObjectPtr<class UNameDisplayWidget> DisplayNameWidget = nullptr;
 };

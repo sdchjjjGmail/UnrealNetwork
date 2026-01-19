@@ -37,13 +37,13 @@ protected:
 	virtual void GetLifetimeReplicatedProps(TArray< FLifetimeProperty >& OutLifetimeProps) const override;
 
 	UFUNCTION()
-	void OnRep_MyPlayerName();
+	void OnRep_MyDisplayName();
 
 	UFUNCTION()
 	void OnRep_MyScore();
 
 protected:
-	UPROPERTY(ReplicatedUsing = OnRep_MyPlayerName, BlueprintReadOnly, Category = "Data")
+	UPROPERTY(ReplicatedUsing = OnRep_MyDisplayName, BlueprintReadOnly, Category = "Data")
 	FString MyPlayerName;
 
 	UPROPERTY(ReplicatedUsing = OnRep_MyScore, BlueprintReadOnly, Category = "Data")

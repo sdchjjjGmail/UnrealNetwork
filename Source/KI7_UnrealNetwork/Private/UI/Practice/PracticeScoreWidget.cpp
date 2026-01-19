@@ -50,8 +50,9 @@ void UPracticeScoreWidget::NativeDestruct()
 
 void UPracticeScoreWidget::OnMyNameTextCommitted(const FText& Text, ETextCommit::Type CommitMethod)
 {
-	if (CommitMethod != ETextCommit::OnEnter)
-		return;
+	if (CommitMethod != ETextCommit::OnEnter) return;
+
+	SetMyName(Text);
 
 	const FString NewName = Text.ToString();
 
@@ -65,6 +66,13 @@ void UPracticeScoreWidget::OnMyNameTextCommitted(const FText& Text, ETextCommit:
 			}
 		}
 	}
+	InputNameText->SetVisibility(ESlateVisibility::Hidden);
+}
+
+void UPracticeScoreWidget::SetMyName(const FText& NewName)
+{
+	TextName->SetText(NewName);
+	TextName->SetVisibility(ESlateVisibility::Visible);
 }
 
 void UPracticeScoreWidget::SearchPlayerState()

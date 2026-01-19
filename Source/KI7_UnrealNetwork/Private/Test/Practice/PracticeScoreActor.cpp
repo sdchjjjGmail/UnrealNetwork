@@ -4,8 +4,9 @@
 #include "Test/Practice/PracticeScoreActor.h"
 #include "Components/SphereComponent.h"
 #include "NiagaraComponent.h"
-#include <Characters/PlayerStateCharacter.h>
-#include <Framework/TestPlayerState.h>
+#include "Characters/PlayerStateCharacter.h"
+#include "Framework/TestPlayerState.h"
+#include "GameFramework/Character.h"
 
 APracticeScoreActor::APracticeScoreActor()
 {
@@ -25,21 +26,22 @@ void APracticeScoreActor::BeginPlay()
 {
 	Super::BeginPlay();
 	
-	Collision->OnComponentBeginOverlap.AddDynamic(this, &APracticeScoreActor::OnOverlap);
+    if (HasAuthority()) Collision->OnComponentBeginOverlap.AddDynamic(this, &APracticeScoreActor::OnOverlap);
 }
 
 void APracticeScoreActor::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
     if (HasAuthority())
     {
-        APlayerStateCharacter* Player = Cast<APlayerStateCharacter>(OtherActor);
-        if (Player)
+        ACharacter* Character = Cast<ACharacter>(OtherActor);
+
+        if (Character)
         {
-            if (ATestPlayerState* PS = Player->GetPlayerState<ATestPlayerState>())
+            if (ATestPlayerState* PS = Character->GetPlayerState<ATestPlayerState>())
             {
                 PS->AddMyScore(10);
+                Destroy();
             }
         }
-        Destroy();
     }
 }

@@ -3,6 +3,8 @@
 
 #include "Characters/PlayerStateCharacter.h"
 #include "Framework/TestPlayerState.h"
+#include "UI/Practice/NameDisplayWidget.h"
+#include "Components/WidgetComponent.h"
 
 // Sets default values
 APlayerStateCharacter::APlayerStateCharacter()
@@ -10,6 +12,8 @@ APlayerStateCharacter::APlayerStateCharacter()
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+	DisplayNameWidgetComponent = CreateDefaultSubobject<UWidgetComponent>(TEXT("DisplayNameWidget"));
+	DisplayNameWidgetComponent->SetupAttachment(RootComponent);
 }
 
 void APlayerStateCharacter::RequestSetMyName(const FString& NewName)
@@ -19,18 +23,29 @@ void APlayerStateCharacter::RequestSetMyName(const FString& NewName)
 	ServerSetMyName(NewName);
 }
 
+void APlayerStateCharacter::UpdateNamePlate(const FString& NewName)
+{
+	if (DisplayNameWidget.IsValid())
+	{
+		DisplayNameWidget->SetMyDisplayName(NewName);
+	}
+}
+
 // Called when the game starts or when spawned
 void APlayerStateCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-	
+	if (DisplayNameWidgetComponent && DisplayNameWidgetComponent->GetWidget())
+	{
+		DisplayNameWidget = Cast<UNameDisplayWidget>(DisplayNameWidgetComponent->GetWidget());
+		DisplayNameWidget->SetMyDisplayName(TEXT("-"));
+	}
 }
 
 // Called every frame
 void APlayerStateCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
 }
 
 // Called to bind functionality to input

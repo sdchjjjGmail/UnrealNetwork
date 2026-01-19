@@ -3,13 +3,14 @@
 
 #include "Framework/TestPlayerState.h"
 #include "Net/UnrealNetwork.h"
+#include "Characters/PlayerStateCharacter.h"
 
 void ATestPlayerState::SetMyPlayerName(const FString& NewName)
 {
 	if (HasAuthority())
 	{
 		MyPlayerName = NewName;
-		OnRep_MyPlayerName();
+		OnRep_MyDisplayName();
 	}
 }
 
@@ -26,13 +27,17 @@ void ATestPlayerState::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& Out
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 
-	DOREPLIFETIME_CONDITION(ATestPlayerState, MyPlayerName, COND_OwnerOnly);
+	DOREPLIFETIME(ATestPlayerState, MyPlayerName);
 	DOREPLIFETIME(ATestPlayerState, MyScore);
 }
 
-void ATestPlayerState::OnRep_MyPlayerName()
+void ATestPlayerState::OnRep_MyDisplayName()
 {
 	UE_LOG(LogTemp, Log, TEXT("Name : %s"), *MyPlayerName);
+	if (APlayerStateCharacter* Character = GetPawn<APlayerStateCharacter>())
+	{
+		Character->UpdateNamePlate(MyPlayerName);
+	}
 }
 
 void ATestPlayerState::OnRep_MyScore()

@@ -26,11 +26,15 @@ protected:
 	void OnMyNameTextCommitted(const FText& Text, ETextCommit::Type CommitMethod);
 
 private:
+	void SetMyName(const FText& NewName);
 	void SearchPlayerState();
 
 protected:
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<class UEditableTextBox> InputNameText = nullptr;
+
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<class UTextBlock> TextName = nullptr;
 
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<class UTextBlock> TextScore = nullptr;
