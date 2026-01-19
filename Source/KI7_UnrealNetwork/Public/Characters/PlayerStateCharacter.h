@@ -12,13 +12,7 @@ class KI7_UNREALNETWORK_API APlayerStateCharacter : public ACharacter
 	GENERATED_BODY()
 
 public:
-	// Sets default values for this character's properties
 	APlayerStateCharacter();
-
-	UFUNCTION(BlueprintCallable, Category = "Player")
-	void RequestSetMyName(const FString& NewName);
-
-	void UpdateNamePlate(const FString& NewName);
 
 protected:
 	virtual void BeginPlay() override;
@@ -26,19 +20,25 @@ protected:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	UFUNCTION(Server, Reliable)
-	void ServerSetMyName(const FString& NewName);
+	void Server_AddScore(int32 Point);
 
 	UFUNCTION(Server, Reliable)
-	void Server_AddScore(int32 Point);
+	void Server_SetMyName(const FString& NewName);
+
+public:
+	void SetMyName(const FString& NewName);
+
+	UFUNCTION(BlueprintCallable)
+	void UpdateNamePlate(const FString& NewName);
 
 public:
 	UFUNCTION(BlueprintCallable, Category = "Test")
 	void TestAddScore();
 
 protected:
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "UI")
-	TObjectPtr<class UWidgetComponent> DisplayNameWidgetComponent = nullptr;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
+	TObjectPtr<class UWidgetComponent> NameWidgetComponent = nullptr;
 
 	UPROPERTY()
-	TWeakObjectPtr<class UNameDisplayWidget> DisplayNameWidget = nullptr;
+	TWeakObjectPtr<class UDataLineWidget> NameWidget = nullptr;
 };
