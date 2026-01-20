@@ -12,6 +12,7 @@ UGA_Shoot::UGA_Shoot()
 
 void UGA_Shoot::ActivateAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo, const FGameplayEventData* TriggerEventData)
 {
+	UE_LOG(LogTemp, Log, TEXT("UGA_Shoot::ActivateAbility"));
 	if (!HitEffectClass)
 	{
 		EndAbility(Handle, ActorInfo, ActivationInfo, true, true);
@@ -50,7 +51,8 @@ void UGA_Shoot::ActivateAbility(const FGameplayAbilitySpecHandle Handle, const F
 	else
 	{
 		// 빗나감
-		DrawDebugLine(GetWorld(), Avatar->GetActorLocation(), HitResult.ImpactPoint, FColor::Green, false, 0.1f, 0, 1.0f);
+		DrawDebugLine(GetWorld(), Avatar->GetActorLocation() + Avatar->GetActorForwardVector() * ShootRange,
+			HitResult.ImpactPoint, FColor::Green, false, 0.1f, 0, 1.0f);
 	}
 	
 	EndAbility(Handle, ActorInfo, ActivationInfo, true, false);
