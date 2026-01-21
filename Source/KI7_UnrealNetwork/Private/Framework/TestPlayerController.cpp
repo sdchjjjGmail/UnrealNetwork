@@ -24,10 +24,22 @@ void ATestPlayerController::SetupInputComponent()
 	if (Enhanced)
 	{
 		Enhanced->BindAction(IA_Ability1, ETriggerEvent::Started, this, &ATestPlayerController::OnInputAbility1);
+		Enhanced->BindAction(IA_Ability2, ETriggerEvent::Started, this, &ATestPlayerController::OnInputAbility2Press);
+		Enhanced->BindAction(IA_Ability2, ETriggerEvent::Completed, this, &ATestPlayerController::OnInputAbility2Release);
 	}
 }
 
 void ATestPlayerController::OnInputAbility1()
 {
 	OnAbility1Press.ExecuteIfBound();
+}
+
+void ATestPlayerController::OnInputAbility2Press()
+{
+	OnAbility2Press.ExecuteIfBound();
+}
+
+void ATestPlayerController::OnInputAbility2Release()
+{
+	OnAbility2Release.ExecuteIfBound();
 }

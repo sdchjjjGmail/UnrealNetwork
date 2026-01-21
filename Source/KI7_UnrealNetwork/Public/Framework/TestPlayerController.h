@@ -10,6 +10,8 @@ class UInputMappingContext;
 class UInputAction;
 
 DECLARE_DELEGATE(FOnAbilityPress)
+DECLARE_DELEGATE(FOnAbility2Input)
+
 /**
  * 
  */
@@ -23,9 +25,13 @@ protected:
 	virtual void SetupInputComponent() override;
 
 	void OnInputAbility1();
+	void OnInputAbility2Press();
+	void OnInputAbility2Release();
 
 public:
 	FOnAbilityPress OnAbility1Press;
+	FOnAbility2Input OnAbility2Press;
+	FOnAbility2Input OnAbility2Release;
 
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Input")
@@ -33,5 +39,8 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Input")
 	TObjectPtr<UInputAction> IA_Ability1;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Input")
+	TObjectPtr<UInputAction> IA_Ability2;
 
 };

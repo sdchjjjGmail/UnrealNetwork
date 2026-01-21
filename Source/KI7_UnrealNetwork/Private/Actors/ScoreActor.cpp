@@ -26,13 +26,15 @@ void AScoreActor::BeginPlay()
 
 	if (HasAuthority())
 	{
+		UE_LOG(LogTemp, Log, TEXT("OnActorBeginOverlap.AddDynamic"));
 		OnActorBeginOverlap.AddDynamic(this, &AScoreActor::OnOverlapEvent);
 	}
-	
 }
 
 void AScoreActor::OnOverlapEvent(AActor* OverlappedActor, AActor* OtherActor)
 {
+	UE_LOG(LogTemp, Log, TEXT("OnOverlapEvent"));
+
 	if (HasAuthority())
 	{
 		ACharacter* Character = Cast<ACharacter>(OtherActor);

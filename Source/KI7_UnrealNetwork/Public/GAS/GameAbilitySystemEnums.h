@@ -11,5 +11,6 @@ UENUM(BlueprintType)
 enum class EAbilityInputID : uint8
 {
 	Shoot = 0	UMETA(DisplayName = "Shoot"),
+	Beam	UMETA(DisplayName = "Beam"),
 };
 
